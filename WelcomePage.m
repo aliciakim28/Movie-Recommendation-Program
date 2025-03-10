@@ -35,5 +35,5 @@ movie_search_interface(username, userDOB);
 end
 
 function movie_search_interface(username, userDOB)
-disp(['User:', username, ', DOB: ', userDOB, 'Proceeding to movie search']);
+disp(['User:', username, ', DOB: ', userDOB, ' Proceeding to movie search']);
 end 
