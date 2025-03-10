@@ -13,27 +13,27 @@ nameBox = uicontrol ('Style','edit','Position',[160 140 180 25],'FontSize',10); 
 
 uicontrol ('Style','text', 'String','Date of Birth (YYYY-MM-DD):', 'Position',[50 100 150 20], 'FontSize', 10,'HorizontalAlignment','left'); %Created a text label asking the users for their date of birth (D0B).
 
-dobBox = uicontrol('Style', 'edit', 'Position', [210 100 130 25], 'FontSize', 10); %Similar to nameBox, I created a dobBox for the users to type their date of birth in. 
+dobBox = uicontrol('Style', 'edit', 'Position', [210 100 130 25], 'FontSize', 10);
 
-uicontrol ('Style','pushbutton','String','Start','Position',[150 50 100 40], 'FontSize', 12, 'FontWeight','bold','Callback', @(~,~) startMovieSearch(nameBox,dobBox,fig)); %Created a start button that moves onto the next page, with the function startMovieSearch. 
+uicontrol ('Style','pushbutton','String','Start','Position',[150 50 100 40], 'FontSize', 12, 'FontWeight','bold','Callback', @(~,~) startMovieSearch(nameBox,dobBox,fig));
 end
 
-function startMovieSearch(nameBox, dobBox, fig) %Defined the function startMovieSearch after the start button is pressed.
-username = get(nameBox, 'String'); %Retrieves the variable nameBox for the users' names
-userDOB = get(dobBox, 'String'); %Retrieves the variable dobBox for the users' DOB
+function startMovieSearch(nameBox, dobBox, fig)
+username = get(nameBox, 'String');
+userDOB = get(dobBox, 'String');
 
 if isempty(username)||isempty(userDOB)
-    msgbox('Please enter your name and date of birth!'); %Prompts the users to put an answer if either nameBox or dobBox is empty.
+    msgbox('Please enter your name and date of birth!');
     return;
 end
 
-msgbox(sprintf('Welcome, %s!\nStarting movie search', username), 'Welcome'); %Prints a welcome message with the user's name.
+msgbox(sprintf('Welcome, %s!\nStarting movie search', username), 'Welcome');
 
-close(fig); %Closes the welcome window.
+close(fig);
 
 movie_search_interface(username, userDOB);
 end
 
 function movie_search_interface(username, userDOB)
-disp(['User:', username, ', DOB: ', userDOB, ' Proceeding to movie search']); %Prints the user name and DOB onto the command window.
+disp(['User:', username, ', DOB: ', userDOB, ' Proceeding to movie search']);
 end 
