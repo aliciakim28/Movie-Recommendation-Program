@@ -4,12 +4,15 @@ csvFiles = dir(fullfile(folderPath, '*.csv'));
 
 movies = {};
 
-for i = 1:length(csvFiles)
+for i=1:length(csvFiles)
     filename = fullfile(folderPath, csvFiles(i).name);
-    opts = detectImportOptions(filename,'TextType','string');
-    dataTable = readtable(filename, opts);
+    opts = detectImportOptions(filename, 'TextType','string','VariableNamingRule','preserve');
+    dataTable = readtable(filename,opts);
 
-    titles = dataTable.movie_name;
+    movie_names = dataTable.movie_name;
     genres = dataTable.genre;
-    directors = dataTable.director
+    directors = dataTable.director;
 
+    movies = [movies; table2cell([movie_names, genres, directors])];
+end
+end

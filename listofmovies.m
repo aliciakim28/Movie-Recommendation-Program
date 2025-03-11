@@ -1,26 +1,20 @@
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-=======
->>>>>>> Stashed changes
-import kagglehub
+function movies = listofmovies()
+folderPath = 'archive';
+csvFiles = dir(fullfile(folderPath, '*.csv'));
 
-pip install kaggle
+movies = {};
 
-% Download latest version
-path = kagglehub.dataset_download("rajugc/imdb-movies-dataset-based-on-genre");
+for i=1:length(csvFiles)
+    filename = fullfile(folderPath, csvFiles(i).name);
+    opts = detectImportOptions(filename, 'TextType','string','VariableNamingRule','preserve');
+    requiredColumns = {'movie_name', 'genre', 'director'};
+    existingColumns = ismember(requiredColumns,opts.VariableNames);
 
-print("Path to dataset files:", path)
+    if all(existingColumns)
+        opts.SelectedVariableNames = requiredColumns;
+        dataTable = readtable(filename, opts);
 
-system("kaggle datasets download -d rajugc/imdb-movies-dataset-based-on-genre");
-
-unzip("imdb-movies-dataset-based-on-genre.zip");
-disp("Path to dataset files:");
-dataset = readtable("imdb-movies-dataset.csv");
-disp(dataset(1:10, :));
-
-dir('*.zip')
-<<<<<<< Updated upstream
-=======
->>>>>>> 7ad9bde7c8f1dec3eb971c42805cbc73800203a4
->>>>>>> Stashed changes
+        movies = [movies;table2cell(dataTable)];
+    end
+end
+end
