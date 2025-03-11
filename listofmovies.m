@@ -1,3 +1,8 @@
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
 import kagglehub
 
 pip install kaggle
@@ -15,3 +20,7 @@ dataset = readtable("imdb-movies-dataset.csv");
 disp(dataset(1:10, :));
 
 dir('*.zip')
+<<<<<<< Updated upstream
+=======
+>>>>>>> 7ad9bde7c8f1dec3eb971c42805cbc73800203a4
+>>>>>>> Stashed changes

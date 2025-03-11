@@ -1,0 +1,15 @@
+function movies = listofmovies()
+folderPath = 'archive';
+csvFiles = dir(fullfile(folderPath, '*.csv'));
+
+movies = {};
+
+for i = 1:length(csvFiles)
+    filename = fullfile(folderPath, csvFiles(i).name);
+    opts = detectImportOptions(filename,'TextType','string');
+    dataTable = readtable(filename, opts);
+
+    titles = dataTable.movie_name;
+    genres = dataTable.genre;
+    directors = dataTable.director
+
