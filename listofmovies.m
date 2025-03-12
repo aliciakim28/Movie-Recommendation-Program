@@ -19,16 +19,21 @@ for i=1:length(csvFiles) %Created a loop for all the .csv files in the variable 
 end
 end
 function interactiveMovieSearch()
-movies = listofmovies(); 
-if isempty(movies)
+
+movies = listofmovies(); %load movie data 
+if isempty(movies) %check if movies were loaded 
     disp('No movies found in the dataset.'); 
     return; 
 end 
+%convert movies cell array to table for easier processing 
 moviesTable = cell2table(movies, 'VariableNames', {'movie_name', 'genre', 'director'}); 
-userGenre = input('Enter preferred genre (or press Enter to skip): ', 's' ); 
 
+%ask user for preferences 
+userGenre = input('Enter preferred genre (or press Enter to skip): ', 's' ); 
 userDirector = input('Enter preferred director (or press Enter to skip): ', 's '); 
-matches = findMatchingMovies(moviesTable, userGenre, userDirector); 
+
+matches = findMatchingMovies(moviesTable, userGenre, userDirector); %find matching movies 
+
 if isempty(matches)
     disp('No exact matches found. Suggesting alternative recommendations...'); 
     alternativeMatches = findAlternativeRecommendations(moviesTable, userGenre, userDirector); 
@@ -44,6 +49,7 @@ else
 end 
 end 
 function matches = findMatchingMovies(moviesTable, genre, director)
+%find movies that match the user's preferred genre and or director 
 matches = []; 
 if ~isempty(genre) && ~isempty(director) 
     matches = moviesTable(strcmpi(moviesTable.genre, genre) & strcmpi(moviesTable.director, director), :); 
@@ -54,6 +60,8 @@ elseif ~isempty(director)
 end 
 end 
 function recommendations = findAlternativeRecommendations(moviesTable, genre, director)
+%if no exact matches are found, suggest other movies based on genre or
+%director 
 recommendations = []; 
 if ~isempty(genre)
     recommendations = moviesTable(strcmpi(moviesTable.genre, genre), :); 
