@@ -7,7 +7,7 @@ movies = {}; %Created an empty array movies to store the datafiles.
 for i=1:length(csvFiles) %Created a loop for all the .csv files in the variable csvFiles.
     filename = fullfile(folderPath, csvFiles(i).name); %Stores the names of files in the variable filename.
     opts = detectImportOptions(filename, 'TextType','string','VariableNamingRule','preserve'); %Ensure that texts are read as strings instead of char. Ensure that column names remain the same. Store the result in opts.
-    requiredColumns = {'movie_name', 'genre', 'director'}; %Extract the columns 'movie_name' 'genre' and 'director' from the dataset
+    requiredColumns = {'movie_name', 'genre', 'director', 'rating'}; %Extract the columns 'movie_name' 'genre' and 'director' from the dataset
     existingColumns = ismember(requiredColumns,opts.VariableNames); %Check if the required columns are in the data files, and store the result in existingColumns as a logical array.
 
     if all(existingColumns) %If all existingColumns are present in the CSV file
