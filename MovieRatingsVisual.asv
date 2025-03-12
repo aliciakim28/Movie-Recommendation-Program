@@ -3,12 +3,11 @@ function genre_ratings()
 
 global movies
 
-% Make sure that the results are not empty
-if size(movies,2) < 5
-    error("Error");
+% If the movie does not have a rating (NaN), then the result should display
+% an error
+if isempty(movies)
+    error("This movie does not yet have a rating.");
 end
-
-
 
 genres = unique(movies(1:5,:));
 avg_ratings = zeros(1, length(genres));
