@@ -8,7 +8,7 @@ while true
     disp('4. View Genre Ratings');
     disp('5. Exit');
 
-    choice = input('Enter your choice:');
+    choice = input('Enter your choice (1/2/3/4/5):');
 
     switch choice
         case 1
