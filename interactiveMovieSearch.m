@@ -20,7 +20,7 @@ if isempty(matches)
     end 
 else 
     disp('Matching movies:'); 
-    disp(mathces); 
+    disp(matches); 
 end 
 end 
 function matches = findMatchingMovies(moviesTable, genre, director)
