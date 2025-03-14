@@ -1,43 +1,35 @@
 % Function to visualize the average ratings of different movie genres
 function MovieRatingsVisual()
 
+global movies
+
 % If the movie does not have a rating (NaN), then the result should display
 % an error
-if isempty(MovieRatingsVisual)
-    disp("This movie does not yet have a rating.");
-end
-
-[~, numCols] = size(MovieRatingsVisual);
-if numCols < 5
-    disp("Error");
+if isempty(movies)
+    error("This movie does not yet have a rating.");
 end
 
 % We also have to make sure that the dataset of movies that the program
 % delivers has at least 5 options
-if size(MovieRatingsVisual, 2) < 5
-    disp ("Error: Not enough results");
+if size(movies, 2) < 5
+    error ("Error: Not enough results")
 end
 
-genres = (MovieRatingsVisual);
-ratings = cell2mat(MovieRatingsVisual);
+genres = unique(movies(1:5,:));
+ratings = cell2mat(movies(:,3));
 
 if isempty(ratings) || all(isnan(ratings))
-    disp ("Error: No valid ratings found");
+    error ("Error: No valid ratings found");
 end
 
 avg_ratings = zeros(length(genres),1);
 
 for ii = 1:length(genres)
-    genre_filter = strcmp(MovieRatingsVisual(:,5), genres{ii});
+    genre_filter = strcmp(movies(:,5), genres{ii});
     genre_ratings = ratings(genre_filter);
     
     % This will take care of movies that do not have ratings
-    if isempty(genre_ratings) || all(isnan(genre_ratings))
-        avg_ratings(ii) = NaN;
-    else
-        avg_ratings(ii) = mean(genre_ratings, 'omitnan');
-    end
-end
+    if isempty(genre_ratings) || 
 
 % Showing an image of the average ratings of movie genres
 bar(avg_ratings);
@@ -45,5 +37,4 @@ set(gca, 'XTickLabel', genres);
 title('Average Ratings by Genre');
 xlabel('Genre');
 ylabel('Average Rating');
-grid on;
 end
