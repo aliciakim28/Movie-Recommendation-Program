@@ -13,10 +13,9 @@ while true
         case 1
             WelcomePage;
         case 2
-            genre = input('Enter genre to search:', 's');
-            search_by_genre(genre);
+            newinteractiveMovieSearch();
         case 3
-            visualize_genre_ratings();
+            MovieRatingsVisual;
         case 4
             disp('Exiting program.');
             break;
