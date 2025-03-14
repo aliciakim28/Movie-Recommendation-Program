@@ -12,7 +12,7 @@ while true
 
     switch choice
         case 1
-            movie_recommendation_welcome();
+            WelcomePage;
         case 2
             user = login_user();
             if isempty(user)
