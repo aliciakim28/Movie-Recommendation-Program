@@ -17,4 +17,3 @@ for i=1:length(csvFiles) %Created a loop for all the .csv files in the variable 
         movies = [movies;table2cell(dataTable)]; %Change the table to a cell array and stacks it in the variable movies
     end
 end
-end
