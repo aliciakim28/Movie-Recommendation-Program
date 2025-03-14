@@ -1,5 +1,5 @@
 function interactiveMovieSearch()
-movies = listofmovies(); 
+listofmovies; 
 if isempty(movies)
     disp('No movies found in the dataset.'); 
     return; 
