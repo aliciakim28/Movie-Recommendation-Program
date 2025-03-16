@@ -31,7 +31,7 @@ if isempty(matches)
 else  
  
     disp('Matching movies:');
-    disp(matches.movie_name); 
+    disp(unique(matches.movie_name, 'stable')); 
 end 
 end 
 
@@ -73,6 +73,8 @@ if director ~= ""
     directorRecommendations = moviesTable(contains(movieDirectors, director, 'IgnoreCase', true), :); 
 
 end 
-recommendations = unique([genreRecommendations; directorRecommendations], 'rows'); 
+recommendations = [genreRecommendations; directorRecommendations]; 
+[~, uniqueIdx] = unique(recommendations.movie_name, 'stable');
+recommendations = recommendations(uniqueIdx,:);
 end 
 
