@@ -11,29 +11,36 @@ end
 
 moviesTable = cell2table(movies(:,1:3), 'VariableNames', {'movie_name', 'genre', 'director'}); 
 
-disp('Enter preferred genre (or press Enter to skip):'); 
-userGenre = strtrim(string(input('', 's')));
+while true
+    disp('Enter preferred genre (or press Enter to skip):');
+    userGenre = strtrim(string(input('', 's')));
 
-disp('Enter preferred director (or press Enter to skip):'); 
-userDirector = strtrim(string(input('', 's'))); 
+    disp('Enter preferred director (or press Enter to skip):'); 
+    userDirector = strtrim(string(input('', 's'))); 
 
-matches = findMatchingMovies(moviesTable, userGenre, userDirector); 
+    matches = findMatchingMovies(moviesTable, userGenre, userDirector); 
 
-if isempty(matches)
-    disp('No exact matches found. Suggesting alternative recommendations...'); 
-    alternativeMatches = findAlternativeRecommendations(moviesTable, userGenre, userDirector); 
-    if isempty(alternativeMatches)
-        disp('No alternative movies found.'); 
-    else 
-        disp('Alternative movie recommendations:'); 
-        disp(alternativeMatches.movie_name); 
-    end 
-else  
- 
-    disp('Matching movies:');
-    disp(unique(matches.movie_name, 'stable')); 
-end 
-end 
+    if isempty(matches)
+        disp('No exact matches found. Suggesting alternative recommendations...'); 
+        alternativeMatches = findAlternativeRecommendations(moviesTable, userGenre, userDirector);
+        if isempty(alternativeMatches)
+            disp('No alternative movies found.'); 
+        else
+            disp('Alternative movie recommendations:'); 
+            disp(alternativeMatches.movie_name); 
+        end
+    else
+        disp('Matching movies:');
+        disp(unique(matches.movie_name, 'stable')); 
+    end
+   
+    searchAgain = input('Do you want to search again? (y/n): ', 's');
+    if strcmpi(searchAgain, 'n')
+        disp('Returning to main menu...');
+        return;
+    end
+end
+end
 
 function matches = findMatchingMovies(moviesTable, genre, director)
 movieGenres = string(moviesTable.genre); 
