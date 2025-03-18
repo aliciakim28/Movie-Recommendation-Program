@@ -134,7 +134,7 @@ function bestMatch = fuzzyMatch(inputStr, itemList)
         end
     end
 
-    if minDistance > 3  
+    if minDistance > 5  
         bestMatch = "";
     end
 end
