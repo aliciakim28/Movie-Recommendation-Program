@@ -54,8 +54,8 @@ end
         disp(unique(matches.movie_name, 'stable')); 
     end
    
-    searchAgain = input('Do you want to search again? (y/n): ', 's');
-    if strcmpi(searchAgain, 'n')
+    searchAgain = input('Do you want to search again? (yes/no): ', 's');
+    if strcmpi(searchAgain, 'no')
         disp('Returning to main menu...');
         return;
     end
