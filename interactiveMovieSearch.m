@@ -33,15 +33,7 @@ end
 if userDirector ~= "" && fuzzyDirector ~= "" && userDirector ~= fuzzyDirector
     disp(sprintf('Did you mean director: %s? Showing results...', fuzzyDirector));
 end
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-%Finds movies that matches the user's genre and/or director prefernce 
-=======
-%Finds movies that matches the user's genre and/or 
->>>>>>> Stashed changes
-=======
-%Finds movies that matches the user's genre and/or 
->>>>>>> Stashed changes
+
 matches = findMatchingMovies(moviesTable, fuzzyGenre, fuzzyDirector); 
 
 if isempty(matches)
