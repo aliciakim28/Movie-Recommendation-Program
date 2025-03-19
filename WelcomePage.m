@@ -1,4 +1,4 @@
-function movie_recommendation_system %Defined the main function, movie_recommendation_system
+function movie_recommendation_system %Defined the main function, movie_recommendation_system. This is the main page for our program.
 movie_recommendation_welcome(); %Calls on the function movie_recommendation_welcome to create a welcome page
 end
 
