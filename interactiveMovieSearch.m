@@ -35,11 +35,6 @@ if isempty(matches)
     disp('No exact matches found. Performing fuzzy search for similar director names...');
     
     fuzzyDirector = fuzzyMatch(userDirector, string(moviesTable.director));
-    
-    if fuzzyDirector ~= ""
-        disp(['Did you mean: ', fuzzyDirector, '? Showing results...']);
-        matches = findMatchingMovies(moviesTable, userGenre, fuzzyDirector);
-    end
 end
 
     if isempty(matches)
