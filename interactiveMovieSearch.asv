@@ -128,32 +128,32 @@ function bestMatch = fuzzyMatch(inputStr, itemList) %Find the closest match usin
         end
     end
 
-    if minDistance > 5  %If match is more different than five character changes, do not consider it
+    if minDistance > 5  %If match is different, do not consider it
         bestMatch = ""; %Return empty string
     end
 end
 
 function d = levenshteinDistance(s1, s2) %Function to compute Levenshtein distance
-    s1 = char(s1); %Convert string to characters so that each character is processed individually
+    s1 = char(s1); %Convert string to characters
     s2 = char(s2); 
     
     m = length(s1); %Get the length of the first string
     n = length(s2); %Get the length of the second string
-    D = zeros(m+1, n+1); %Initialize the distance matrix
+    D = zeros(m+1, n+1); %Initialize the distance
 
-    for i = 1:m+1 %Initialize the first column of the matrix, converting s1 into an empty string
+    for i = 1:m+1 %Initialize 
         D(i, 1) = i-1;
     end
-    for j = 1:n+1 %Initialize the first row of the matrix, converting s2 to an empty string
+    for j = 1:n+1
         D(1, j) = j-1;
     end
 
-    for i = 2:m+1 %Compute distances
+    for i = 2:m+1
         for j = 2:n+1
-            cost = ~(s1(i-1) == s2(j-1)); %Compute cost of the substitution
-            D(i, j) = min([D(i-1, j) + 1, D(i, j-1) + 1, D(i-1, j-1) + cost]); %Compute minimum cost
+            cost = ~(s1(i-1) == s2(j-1));
+            D(i, j) = min([D(i-1, j) + 1, D(i, j-1) + 1, D(i-1, j-1) + cost]);
         end
     end
 
-    d = D(m+1, n+1); %Return the final distance value, which is the minimum number of changes required to convert s1 into s2
+    d = D(m+1, n+1);
 end
