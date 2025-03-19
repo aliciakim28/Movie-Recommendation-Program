@@ -22,34 +22,27 @@ while true
     disp('Enter preferred director (or press Enter to skip):'); 
     userDirector = strtrim(string(input('', 's'))); 
 
-  
-fuzzyGenre = fuzzyMatch(userGenre, string(moviesTable.genre));
-fuzzyDirector = fuzzyMatch(userDirector, string(moviesTable.director));
+fuzzyGenre = fuzzyMatch(userGenre, string(moviesTable.genre)); %Find a close approximate match to the genre input
+fuzzyDirector = fuzzyMatch(userDirector, string(moviesTable.director)); %Find a close approximate to the director input
 
-if userGenre ~= "" && fuzzyGenre ~= "" && userGenre ~= fuzzyGenre
-    disp(sprintf('Did you mean genre: %s? Showing results...', fuzzyGenre));
+if userGenre ~= "" && fuzzyGenre ~= "" && userGenre ~= fuzzyGenre %Check if the fuzzy match for the genre is different
+    disp(sprintf('Did you mean genre: %s? Showing results...', fuzzyGenre)); %Suggest an alternative genre
 end
 
-if userDirector ~= "" && fuzzyDirector ~= "" && userDirector ~= fuzzyDirector
-    disp(sprintf('Did you mean director: %s? Showing results...', fuzzyDirector));
+if userDirector ~= "" && fuzzyDirector ~= "" && userDirector ~= fuzzyDirector %Check if the fuzzy match for the director is different
+    disp(sprintf('Did you mean director: %s? Showing results...', fuzzyDirector)); %Suggest an alternative director
 end
 
-matches = findMatchingMovies(moviesTable, fuzzyGenre, fuzzyDirector); 
+matches = findMatchingMovies(moviesTable, fuzzyGenre, fuzzyDirector); %Find matching movies
 
-if isempty(matches)
-    disp('No exact matches found. Performing fuzzy search for similar director names...');
-    
-    fuzzyDirector = fuzzyMatch(userDirector, string(moviesTable.director));
-    
-    if fuzzyDirector ~= ""
-        disp(['Did you mean: ', fuzzyDirector, '? Showing results...']);
-        matches = findMatchingMovies(moviesTable, userGenre, fuzzyDirector);
-    end
+if isempty(matches) %If no exact matches are found
+    disp('No exact matches found. Performing fuzzy search for similar director names...'); %Inform user that the program is finding for similar matches
+    fuzzyDirector = fuzzyMatch(userDirector, string(moviesTable.director)); %Retry fuzzy matching for the director
 end
 
-    if isempty(matches)
-        disp('No exact matches found. Suggesting alternative recommendations...'); 
-        alternativeMatches = findAlternativeRecommendations(moviesTable, userGenre, userDirector);
+    if isempty(matches) %If there are still no matches found 
+        disp('No exact matches found. Suggesting alternative recommendations...');  %Inform the display of alternative movies
+        alternativeMatches = findAlternativeRecommendations(moviesTable, userGenre, userDirector); %Show alternative movie names
         if isempty(alternativeMatches)
             disp('No alternative movies found.'); 
         else
@@ -112,59 +105,59 @@ recommendations = [genreRecommendations; directorRecommendations];
 recommendations = recommendations(uniqueIdx,:);
 end 
 
-function cleanStr = normalizeInput(str)
-    str = lower(strtrim(str)); 
-    str = regexprep(str, '\s+', '');
-    cleanStr = string(str);
+function cleanStr = normalizeInput(str) %Normalize the user's input
+    str = lower(strtrim(str)); %Remove lowercase and spaces
+    str = regexprep(str, '\s+', ''); %Remove extra spaces
+    cleanStr = string(str); %Convert to strings
 end
 
-function bestMatch = fuzzyMatch(inputStr, itemList)
-    if inputStr == "" || isempty(itemList)
-        bestMatch = "";
+function bestMatch = fuzzyMatch(inputStr, itemList) %Find the closest match using fuzzy search algorithm
+    if inputStr == "" || isempty(itemList) %If the input is empty
+        bestMatch = ""; %Return empty string
         return;
     end
 
-    itemList = string(itemList);
-    itemList = itemList(~ismissing(itemList)); 
+    itemList = string(itemList); %Convert list to string
+    itemList = itemList(~ismissing(itemList)); %Remove missing values
 
-    inputStr = normalizeInput(inputStr);
-    minDistance = inf;
-    bestMatch = "";
+    inputStr = normalizeInput(inputStr); %Normalize input string
+    minDistance = inf; %Initialize the minimum distance
+    bestMatch = ""; %Initialize best match
 
-    for i = 1:length(itemList)
-        dist = levenshteinDistance(char(inputStr), char(itemList(i)));
-        if dist < minDistance
-            minDistance = dist;
-            bestMatch = string(itemList(i));
+    for i = 1:length(itemList) %Loop through all existing items
+        dist = levenshteinDistance(char(inputStr), char(itemList(i))); %Compute the Levenshtein distance-the min number of character edits required to change one word to another
+        if dist < minDistance %If there is a closer match
+            minDistance = dist; %Update minimum distance
+            bestMatch = string(itemList(i)); %Update best match
         end
     end
 
-    if minDistance > 5  
-        bestMatch = "";
+    if minDistance > 5  %If match is more different than five character changes, do not consider it
+        bestMatch = ""; %Return empty string
     end
 end
 
-function d = levenshteinDistance(s1, s2)
-    s1 = char(s1);
+function d = levenshteinDistance(s1, s2) %Function to compute Levenshtein distance
+    s1 = char(s1);%Convert string to characters so that each character is processed individually
     s2 = char(s2);
     
-    m = length(s1);
-    n = length(s2);
-    D = zeros(m+1, n+1);
+    m = length(s1); %Get the length of the first string
+    n = length(s2); %Get the length of the second string
+    D = zeros(m+1, n+1); %Initialize the distance matrix
 
-    for i = 1:m+1
+    for i = 1:m+1 %Initialize the first column of the matrix, converting s1 into an empty string
         D(i, 1) = i-1;
     end
-    for j = 1:n+1
+    for j = 1:n+1 %Initialize the first row of the matrix, converting s2 to an empty string
         D(1, j) = j-1;
     end
 
-    for i = 2:m+1
+    for i = 2:m+1 %Compute distances
         for j = 2:n+1
-            cost = ~(s1(i-1) == s2(j-1));
-            D(i, j) = min([D(i-1, j) + 1, D(i, j-1) + 1, D(i-1, j-1) + cost]);
+            cost = ~(s1(i-1) == s2(j-1)); %Compute cost of the substitution
+            D(i, j) = min([D(i-1, j) + 1, D(i, j-1) + 1, D(i-1, j-1) + cost]); %Compute minimum cost
         end
     end
 
-    d = D(m+1, n+1);
+    d = D(m+1, n+1); %Return the final distance value, which is the minimum number of changes required to convert s1 into s2
 end
