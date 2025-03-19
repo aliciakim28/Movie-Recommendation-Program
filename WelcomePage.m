@@ -36,4 +36,5 @@ end
 
 function movie_search_interface(username, userDOB)
 disp(['User:', username, ', DOB: ', userDOB, ' Proceeding to movie search']); %Prints the user name and DOB onto the command window.
+interactiveMovieSearch(); %Calls on the search system
 end 
