@@ -1,6 +1,10 @@
 function interactiveMovieSearch()
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+%This function performs the interactive movie search function 
+>>>>>>> Stashed changes
 =======
 %This function performs the interactive movie search function 
 >>>>>>> Stashed changes
@@ -15,6 +19,10 @@ end
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+%Ensure that the movies dataset is formatted correctly 
+>>>>>>> Stashed changes
 =======
 %Ensure that the movies dataset is formatted correctly 
 >>>>>>> Stashed changes
@@ -30,6 +38,11 @@ moviesTable = cell2table(movies(:,1:3), 'VariableNames', {'movie_name', 'genre',
 while true
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+    %This allows for users to get user preferences for their preferred
+    %genre and director
+>>>>>>> Stashed changes
 =======
     %This allows for users to get user preferences for their preferred
     %genre and director
@@ -44,6 +57,7 @@ while true
     disp('Enter preferred director (or press Enter to skip):'); 
     userDirector = strtrim(string(input('', 's'))); 
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 fuzzyGenre = fuzzyMatch(userGenre, string(moviesTable.genre)); %Find a close approximate match to the genre input
@@ -68,6 +82,8 @@ end
         disp('No exact matches found. Suggesting alternative recommendations...'); %Inform the display of alternative movies
         alternativeMatches = findAlternativeRecommendations(moviesTable, userGenre, userDirector); %Show alternative movie names
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
   
@@ -99,6 +115,9 @@ end
         disp('No exact matches found. Suggesting alternative recommendations...'); 
         alternativeMatches = findAlternativeRecommendations(moviesTable, userGenre, userDirector);
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -166,6 +185,7 @@ end
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 function cleanStr = normalizeInput(str) %Normalize the user's input
     str = lower(strtrim(str)); %Remove lowercase and spaces
     str = regexprep(str, '\s+', ''); %Remove extra spaces
@@ -210,6 +230,8 @@ function d = levenshteinDistance(s1, s2) %Function to compute Levenshtein distan
 =======
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 function cleanStr = normalizeInput(str)
     str = lower(strtrim(str)); 
     str = regexprep(str, '\s+', '');
@@ -252,6 +274,9 @@ function d = levenshteinDistance(s1, s2)
 
     for i = 1:m+1
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
