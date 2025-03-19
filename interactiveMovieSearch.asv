@@ -1,10 +1,18 @@
 function interactiveMovieSearch()
+<<<<<<< Updated upstream
+=======
+%This function performs the interactive movie search function 
+>>>>>>> Stashed changes
 movies = listofmovies();
 if isempty(movies)
     disp('No movies found in the dataset.'); 
     return; 
 end 
 
+<<<<<<< Updated upstream
+=======
+%Ensure that the movies dataset is formatted correctly 
+>>>>>>> Stashed changes
 if ~iscell(movies) || size(movies, 2) < 3
     error('Invalid movies data format. Expected a cell array with exactly three columns (movie_name, genre, director).');
 end 
@@ -12,12 +20,18 @@ end
 moviesTable = cell2table(movies(:,1:3), 'VariableNames', {'movie_name', 'genre', 'director'}); 
 
 while true
+<<<<<<< Updated upstream
+=======
+    %This allows for users to get user preferences for their preferred
+    %genre and director
+>>>>>>> Stashed changes
     disp('Enter preferred genre (or press Enter to skip):');
     userGenre = strtrim(string(input('', 's')));
 
     disp('Enter preferred director (or press Enter to skip):'); 
     userDirector = strtrim(string(input('', 's'))); 
 
+<<<<<<< Updated upstream
 fuzzyGenre = fuzzyMatch(userGenre, string(moviesTable.genre)); %Find a close approximate match to the genre input
 fuzzyDirector = fuzzyMatch(userDirector, string(moviesTable.director)); %Find a close approximate to the director input
 
@@ -39,6 +53,36 @@ end
     if isempty(matches) %If there are still no matches found 
         disp('No exact matches found. Suggesting alternative recommendations...'); %Inform the display of alternative movies
         alternativeMatches = findAlternativeRecommendations(moviesTable, userGenre, userDirector); %Show alternative movie names
+=======
+  
+fuzzyGenre = fuzzyMatch(userGenre, string(moviesTable.genre));
+fuzzyDirector = fuzzyMatch(userDirector, string(moviesTable.director));
+
+if userGenre ~= "" && fuzzyGenre ~= "" && userGenre ~= fuzzyGenre
+    disp(sprintf('Did you mean genre: %s? Showing results...', fuzzyGenre));
+end
+
+if userDirector ~= "" && fuzzyDirector ~= "" && userDirector ~= fuzzyDirector
+    disp(sprintf('Did you mean director: %s? Showing results...', fuzzyDirector));
+end
+%Finds movies that matches the user's genre and/or director prefernce 
+matches = findMatchingMovies(moviesTable, fuzzyGenre, fuzzyDirector); 
+
+if isempty(matches)
+    disp('No exact matches found. Performing fuzzy search for similar director names...');
+    
+    fuzzyDirector = fuzzyMatch(userDirector, string(moviesTable.director));
+    
+    if fuzzyDirector ~= ""
+        disp(['Did you mean: ', fuzzyDirector, '? Showing results...']);
+        matches = findMatchingMovies(moviesTable, userGenre, fuzzyDirector);
+    end
+end
+
+    if isempty(matches)
+        disp('No exact matches found. Suggesting alternative recommendations...'); 
+        alternativeMatches = findAlternativeRecommendations(moviesTable, userGenre, userDirector);
+>>>>>>> Stashed changes
         if isempty(alternativeMatches)
             disp('No alternative movies found.'); 
         else
@@ -101,6 +145,7 @@ recommendations = [genreRecommendations; directorRecommendations];
 recommendations = recommendations(uniqueIdx,:);
 end 
 
+<<<<<<< Updated upstream
 function cleanStr = normalizeInput(str) %Normalize the user's input
     str = lower(strtrim(str)); %Remove lowercase and spaces
     str = regexprep(str, '\s+', ''); %Remove extra spaces
@@ -142,6 +187,49 @@ function d = levenshteinDistance(s1, s2) %Function to compute Levenshtein distan
     D = zeros(m+1, n+1); %Initialize the distance
 
     for i = 1:m+1 %Initialize 
+=======
+function cleanStr = normalizeInput(str)
+    str = lower(strtrim(str)); 
+    str = regexprep(str, '\s+', '');
+    cleanStr = string(str);
+end
+
+function bestMatch = fuzzyMatch(inputStr, itemList)
+    if inputStr == "" || isempty(itemList)
+        bestMatch = "";
+        return;
+    end
+
+    itemList = string(itemList);
+    itemList = itemList(~ismissing(itemList)); 
+
+    inputStr = normalizeInput(inputStr);
+    minDistance = inf;
+    bestMatch = "";
+
+    for i = 1:length(itemList)
+        dist = levenshteinDistance(char(inputStr), char(itemList(i)));
+        if dist < minDistance
+            minDistance = dist;
+            bestMatch = string(itemList(i));
+        end
+    end
+
+    if minDistance > 5  
+        bestMatch = "";
+    end
+end
+
+function d = levenshteinDistance(s1, s2)
+    s1 = char(s1);
+    s2 = char(s2);
+    
+    m = length(s1);
+    n = length(s2);
+    D = zeros(m+1, n+1);
+
+    for i = 1:m+1
+>>>>>>> Stashed changes
         D(i, 1) = i-1;
     end
     for j = 1:n+1
