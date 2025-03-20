@@ -1,5 +1,5 @@
 function interactiveMovieSearch()
-%This function performs the interactive movie search function 
+%This is the main function performs the interactive movie search function 
 movies = listofmovies();
 if isempty(movies)
     disp('No movies found in the dataset.'); 
@@ -14,8 +14,7 @@ end
 moviesTable = cell2table(movies(:,1:3), 'VariableNames', {'movie_name', 'genre', 'director'}); 
 
 while true
-    %This allows for users to get user preferences for their preferred
-    %genre and director
+    %This function inputs the user preferences for the genre and director 
     disp('Enter preferred genre (or press Enter to skip):');
     userGenre = strtrim(string(input('', 's')));
 
@@ -41,14 +40,8 @@ if isempty(matches) %If no exact matches are found
 end
 
     if isempty(matches) %If there are still no matches found 
-        disp('No exact matches found. Suggesting alternative recommendations...');  %Inform the display of alternative movies
-        alternativeMatches = findAlternativeRecommendations(moviesTable, userGenre, userDirector); %Show alternative movie names
-        if isempty(alternativeMatches)
-            disp('No alternative movies found.'); 
-        else
-            disp('Alternative movie recommendations:'); 
-            disp(alternativeMatches.movie_name); 
-        end
+        disp('No exact matches found. Suggesting popular recommendations...');  %Inform the display of alternative movie
+        disp ('The Godfather, The Dark Knight, Pulp Fiction, Fight Club, The Matrix, Parasite, Whiplash, Grave of the Fireflies, Your name, Taxi Driver')
     else
         disp('Matching movies:');
         disp(unique(matches.movie_name, 'stable')); 
@@ -62,23 +55,29 @@ end
 end
 end
 
+%Function of matches and string is used to find any movies that will be
+%able to match the user preferences by their genre/and or director 
 function matches = findMatchingMovies(moviesTable, genre, director)
 movieGenres = string(moviesTable.genre); 
 movieDirectors = string(moviesTable.director);
 
+%this intializes logical arrays for filtering movies 
 genreMatches = true(height(moviesTable), 1); 
 directorMatches = true(height(moviesTable), 1);
 
+%This will apply a genre filter if a genre is specified 
 if genre ~= ""
     genreMatches = contains(movieGenres, genre, 'IgnoreCase', true); 
 end 
 
+%applies a director filter if the director is specified by the user 
 if director ~= ""
     directorMatches = contains(movieDirectors, director, 'IgnoreCase', true);
 end 
-
+%returns movies that match both the specified filters (genre and director) 
 matches = moviesTable(genreMatches & directorMatches, :); 
 
+%if neither genre nor director is provided, return an empty table 
 if genre == "" && director == "" 
     matches = moviesTable([],:); 
 end 
@@ -93,13 +92,16 @@ movieDirectors = string(moviesTable.director);
 genreRecommendations = moviesTable([],:); 
 directorRecommendations = moviesTable([],:); 
 
+%finds movies that are in the same genre if the genre is specified
 if genre ~= ""
     genreRecommendations = moviesTable(contains(movieGenres, genre, 'IgnoreCase', true), :); 
 end 
+
 if director ~= "" 
     directorRecommendations = moviesTable(contains(movieDirectors, director, 'IgnoreCase', true), :); 
 
 end 
+%find movies by the same director if director is specified 
 recommendations = [genreRecommendations; directorRecommendations]; 
 [~, uniqueIdx] = unique(recommendations.movie_name, 'stable');
 recommendations = recommendations(uniqueIdx,:);
