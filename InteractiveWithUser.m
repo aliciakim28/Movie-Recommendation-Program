@@ -4,20 +4,17 @@ while true % Infinite loop to keep the menu running until the user chooses where
     % Displaying the menu options
     disp('Movie Recommendation System');
     disp('1. Register');
-    disp('2. Search by Genre');
-    disp('3. Exit');
+    disp('2. Exit');
 
     % Asking the user where they want to go
-    choice = input('Enter your choice (1/2/3):');
+    choice = input('Enter your choice (1/2):');
 
     % Handle the user input if they want to switch their choice
     switch choice
         case 1 % Call the registration page
             WelcomePage;
             return; % Exit the program after registration
-        case 2 % Call the movie search function
-            newinteractiveMovieSearch();
-        case 3
+        case 2
             disp('Exiting program.'); % Exit the loop and terminate the program
             break;
         otherwise % Handle invalid inputs
